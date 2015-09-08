@@ -1,0 +1,20 @@
+<?php
+/* $servername = "localhost";
+$username = "learnquix";
+$password = "Learn@21";
+$dbname = "learnquix"; */
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "learnquix";
+
+try {
+     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch(PDOException $e) {
+     echo "Error: " . $e->getMessage();
+}
+
+?>

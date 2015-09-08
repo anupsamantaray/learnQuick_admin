@@ -1,0 +1,1 @@
+<footer class="text-center"><strong style="color:white;">School Admin created and maintained by <a href="#">Androapps.com</strong></a></footer>
