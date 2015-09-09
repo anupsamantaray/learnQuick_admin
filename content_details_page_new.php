@@ -10,7 +10,6 @@ $id=$_REQUEST["id"];
 if(isset($_REQUEST['act']) and $_REQUEST['act']=="deleteIMG"){
 	if(isset($_REQUEST['id'])){
 		$delId=$_REQUEST['id'];
-		
 		$resul= "Select * from tbl_image WHERE image_id='".$delId."'";
 		$rs=mysql_query($resul);
 		$fetch=mysql_fetch_assoc($rs);
@@ -26,7 +25,6 @@ if(isset($_REQUEST['act']) and $_REQUEST['act']=="deleteIMG"){
 		//$errorData="Request deleted successfully.";
 		header('Location:content_details_page_new.php?dele=1');
 	}
-	
 }
 
 // delete from video table
@@ -164,6 +162,32 @@ else
 							</div>
 						</div>
 						<div class="col-md-12">
+							<div class="col-md-3">
+								<select class="form-control" name="standard" id="standard" required="required">
+									<option defualt value="0">Select Standard</option>
+									<?php
+									$data=$obj->getAllStandard();
+									if(count($data) > 0)
+									{
+										$i=1;
+										foreach ($data as $key => $value) {
+											?>
+											<option value="<?php echo $value['standard_id']; ?>"><?php echo $value['standard']; ?></option>
+											<?php
+											$i++;	 
+										}
+									}
+									?>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<!--select class="form-control subject" name="subject" required="required" id="subject" style="display:none;">
+									<option defualt value="0">Select Subject</option>
+								</select-->
+								<select class="form-control subject" name="subject" required="required" id="subject">
+									<option defualt value="0">Select Subject</option>
+								</select>
+							</div>
 							<select class="form-control" name="category" id="category" style="width:20%; margin-top:10px; float:right;">
 								<option defualt value="0">Select Category</option>
 								<option value="Video">Explanation (Video)</option>
@@ -198,7 +222,7 @@ else
 											<th style="width:152px;">Action</th>
 										</tr>
 									</thead>
-									<tbody role="alert" aria-live="polite" aria-relevant="all">
+									<tbody role="alert" aria-live="polite" aria-relevant="all" id="resltfromajax">
 										<?php
 										$stmt = $conn->prepare("SELECT tbl_image.image_name,tbl_image.image_id,tbl_subjects.subject_name,tbl_chapters.chapter_name,tbl_standard.standard FROM tbl_image,tbl_standard,tbl_chapters,tbl_subjects WHERE tbl_image.standard_id=tbl_standard.standard_id AND tbl_image.chap_id=tbl_chapters.chap_id AND tbl_image.sub_id=tbl_subjects.sub_id ORDER BY tbl_image.standard_id DESC");
 										$stmt->execute();
@@ -212,9 +236,6 @@ else
 													<!--?php echo $row['image_name']."</td><td>" ?-->
 													<?php echo "<img src='upload/images/".$row['image_name']."' width='100px' >"."</td><td>" ?>
 													
-						
-													
-											  
 													<!--button type="button" class="btn btn-warning" onclick="i_delete('<?php echo $row['image_id'];?>')">Delete</button-->
 													
 													<a href="edit_image.php?prd_id=<?php echo $row["image_id"]?>" title="Edit Company" class="btn btn-warning">Edit</a>
@@ -222,12 +243,12 @@ else
 													<a href="<?=$_SERVER["PHP_SELF"]?>?act=deleteIMG&id=<?php echo $row['image_id'];?>" title="Delete The Request" onClick="return confirmDelete();" class="btn btn-warning">Delete</a>
 												<?php 
 												}
-											echo "</td><tr>"; 
+												echo "</td><tr>"; 
 											}
 											
 											
 											//$stmt2 = $conn->prepare("SELECT * FROM tbl_video");
-											$stmt2 = $conn->prepare("SELECT tbl_video.video_name	,tbl_video.video_id,tbl_subjects.subject_name,tbl_chapters.chapter_name,tbl_standard.standard FROM tbl_video,tbl_standard,tbl_chapters,tbl_subjects WHERE tbl_video.standard_id=tbl_standard.standard_id AND tbl_video.chap_id=tbl_chapters.chap_id AND tbl_video.sub_id=tbl_subjects.sub_id ORDER BY tbl_video.standard_id DESC");
+											$stmt2 = $conn->prepare("SELECT tbl_video.video_name, tbl_video.video_id, tbl_subjects.subject_name,tbl_chapters.chapter_name,tbl_standard.standard FROM tbl_video,tbl_standard,tbl_chapters,tbl_subjects WHERE tbl_video.standard_id=tbl_standard.standard_id AND tbl_video.chap_id=tbl_chapters.chap_id AND tbl_video.sub_id=tbl_subjects.sub_id ORDER BY tbl_video.standard_id DESC");
 											$stmt2->execute();
 											
 											$row1=$stmt2->rowCount();
@@ -249,7 +270,7 @@ else
 												
 													<?php 
 												}
-												echo "</td><tr>"; 
+												echo "</td></tr>"; 
 											}
 																
 											$stmt3 = $conn->prepare("SELECT tbl_docs.doc_name,tbl_docs.doc_id, tbl_subjects.subject_name,tbl_chapters.chapter_name,tbl_standard.standard FROM tbl_docs,tbl_standard,tbl_chapters,tbl_subjects WHERE tbl_docs.standard_id=tbl_standard.standard_id AND tbl_docs.chap_id=tbl_chapters.chap_id AND tbl_docs.sub_id=tbl_subjects.sub_id ORDER BY tbl_docs.standard_id DESC");
@@ -269,7 +290,7 @@ else
 													<a href="<?=$_SERVER["PHP_SELF"]?>?act=deleteDOC&idss=<?php echo $row3['doc_id'];?>" title="Delete The Request" onClick="return confirmDelete3();" class="btn btn-warning">Delete</a>
 												<?php 
 												}
-												echo "</td><tr>"; 
+												echo "</td></tr>"; 
 											}
 											?>
 									</tbody>
@@ -294,7 +315,7 @@ else
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	$(".standard").change(function(){
+	$("#standard").change(function(){
 		$(".subject").show();
 		var id = $(this).val();
 		std_id= $(this).val();
@@ -353,6 +374,43 @@ $(document).ready(function(){
 		}else{
 			alert("Please Select Standard.");
 			return false;
+		}
+	});
+	$('#category').change(function(){
+		var standard = $('#standard').val();
+		var sub = $('#subject').val();
+		var cat = $('#category').val();
+		console.log(sub);
+		console.log(cat);
+		$("#resltfromajax").html('');
+		if((standard != '0') && (sub != '0') && (cat != '0')){
+			var dataString = 'standard='+ standard  + '&sub='+ sub + '&cat=' + cat;
+			/*dataString.append("standard",standard);
+			dataString.append("sub",sub);
+			dataString.append("cat",cat);*/
+			$.ajax({
+				type:"POST",
+				url:"ajax.php?action=ForContactDetailsNew",
+				data: dataString,
+				cache: false,
+				success:function(response){
+					//$("#resltfromajax").append(html);
+					var jsndata = JSON.parse(response);
+					//console.log(jsndata.result[0].image_name);
+					var reshtml = '';
+					var resltdata = jsndata.result;
+					for(var i=0;i<resltdata.length;i++){
+						if(cat == 'Image'){
+							reshtml += '<tr><td>'+resltdata[i].standard+'</td><td>'+resltdata[i].chapter_name+'</td><td>'+resltdata[i].subject_name+'</td><td><img src="upload/images/'+resltdata[i].image_name+'" width="100px" /></td><td><a href="edit_image.php?prd_id='+resltdata[i].image_id+'" title="Edit Company" class="btn btn-warning">Edit</a><a href="content_details_page_new.php?act=deleteIMG&id='+resltdata[i].image_id+'" title="Delete The Request" onClick="return confirmDelete();" class="btn btn-warning">Delete</a></td></tr>';
+						}else if(cat == 'Video'){
+							reshtml += '<tr><td>'+resltdata[i].standard+'</td><td>'+resltdata[i].chapter_name+'</td><td>'+resltdata[i].subject_name+'</td><td>'+resltdata[i].video_name+'</td><td><a href="edit_video.php?vdo_id='+resltdata[i].video_id+'" title="Edit Video" class="btn btn-warning">Edit</a><a href="content_details_page_new.php?act=deleteVDO&ids='+resltdata[i].video_id+'" title="Delete The Request" onClick="return confirmDelete();" class="btn btn-warning">Delete</a></td></tr>';
+						}else if(cat == 'Document'){
+							reshtml += '<tr><td>'+resltdata[i].standard+'</td><td>'+resltdata[i].chapter_name+'</td><td>'+resltdata[i].subject_name+'</td><td>'+resltdata[i].doc_name+'</td><td><a href="edit_document.php?doc_id='+resltdata[i].doc_id+'" title="Edit Document" class="btn btn-warning">Edit</a><a href="content_details_page_new.php?act=deleteDOC&idss='+resltdata[i].doc_id+'" title="Delete The Request" onClick="return confirmDelete();" class="btn btn-warning">Delete</a></td></tr>';
+						}
+					}
+					$("#resltfromajax").append(reshtml);
+				}
+			});
 		}
 	});
 });

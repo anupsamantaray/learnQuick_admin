@@ -28,26 +28,20 @@ else
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE-edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>Admin Dashboard </title>
-
-
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="css/style1.css" type="text/css">
-  
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
 </head>
-
 <body>
   <!-- header -->
   <div class="cotainer" style="width:100%;margin:0px;">
     <?php  include_once('includes/header.php'); ?>
   </div>
   <!-- /Header -->
-
   <!-- Main -->
   <div class="container-fluid" style="margin-top:0px;background-color:#3E3B3C" >
     <div class="row" style="margin-top: 65px;">
@@ -55,17 +49,13 @@ else
         <!-- Left column -->
         <?php  include_once('includes/side_nav.php'); ?>
       </div><!-- /col-3 -->
-
       <div class="col-md-10">
-
         <!-- column 2 -->
         <!-- <ul class="list-inline pull-right">
           <li><a title="Add Widget" data-toggle="modal" href="#addWidgetModal"><span class="glyphicon glyphicon-plus-sign"></span> Add User</a></li>
         </ul> -->
         <a href="#"><strong><i class="glyphicon glyphicon-briefcase"></i> School Admin </strong></a>
-
         <hr>
-
         <div class="row">
           <!-- center left-->
           <div class="col-md-12">
@@ -227,16 +217,9 @@ else
     {
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) 
     {
-                    
       	echo "<tr><td>";?>
-
      <?php 
-
      echo $row['doc_name']."</td><td>" ?>
-
- 
-     
-
       <button type="button" class="btn btn-warning" onclick="d_delete('<?php echo $row['doc_name'];?>')">Delete</button>
 
   <?php } 
@@ -503,6 +486,5 @@ function v_delete(v)
 
     });
   </script>
-
 </body>
 </html>

@@ -22,9 +22,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='DeleteUser')
     $sql = "DELETE FROM  `register` where user_id ='".$id."'";
     $result = mysql_query($sql,$link);
     if($result){
-    	echo"successfully Delete";
+    	echo "successfully Delete";
     }
-
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action']=='Qdelete')
@@ -57,8 +56,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='changeSubject')
 if(isset($_REQUEST['action']) && $_REQUEST['action']=='AddChapter')
 {
     $id = $_REQUEST['id'];
-    
-
     $sql="SELECT * FROM `tbl_chapters` where `sub_id` ='".$id."'";
     $result=mysql_query($sql,$link);
     echo '<option value="0"> select chapter </option>';
@@ -220,12 +217,12 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='d_delete')
     $d_name = $_REQUEST['d_name'];
     
     
-  $sql = "DELETE FROM  `tbl_docs` where `doc_name` ='".$d_name."'";
+  $sql = "DELETE FROM `tbl_docs` where `doc_name` =	'".$d_name."'";
   
     $result = $conn->query($sql);
     if($result)
     {
-        echo"successfully Deleted";
+        echo "successfully Deleted";
     }    
 @unlink('upload/docs/'.$d_name);
 }
@@ -240,10 +237,30 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='v_delete')
     $result = $conn->query($sql);
     if($result)
     {
-        echo"successfully Deleted";
+        echo "successfully Deleted";
     }    
 @unlink('upload/videos/'.$v_name);
 }
-
-
+if(isset($_REQUEST['action']) && $_REQUEST['action']=='ForContactDetailsNew'){
+	$standard = $_REQUEST['standard'];
+	$sub = $_REQUEST['sub'];
+	$cat = $_REQUEST['cat'];
+	if($cat == 'Image'){
+		$sql = "SELECT tbl_image.image_name,tbl_image.image_id,tbl_subjects.subject_name,tbl_chapters.chapter_name,tbl_standard.standard FROM tbl_image,tbl_standard,tbl_chapters,tbl_subjects WHERE tbl_image.standard_id=tbl_standard.standard_id AND tbl_image.chap_id=tbl_chapters.chap_id AND tbl_image.sub_id=tbl_subjects.sub_id AND tbl_image.standard_id = '".$standard."' AND tbl_image.sub_id='".$sub."'";
+	}else if($cat == 'Video'){
+		$sql = "SELECT tbl_video.video_name, tbl_video.video_id, tbl_subjects.subject_name,tbl_chapters.chapter_name,tbl_standard.standard FROM tbl_video,tbl_standard,tbl_chapters,tbl_subjects WHERE tbl_video.standard_id=tbl_standard.standard_id AND tbl_video.chap_id=tbl_chapters.chap_id AND tbl_video.sub_id=tbl_subjects.sub_id AND tbl_video.standard_id = '".$standard."' AND tbl_video.sub_id='".$sub."'";
+	}else if($cat == 'Document'){
+		$sql = "SELECT tbl_docs.doc_name,tbl_docs.doc_id, tbl_subjects.subject_name,tbl_chapters.chapter_name,tbl_standard.standard FROM tbl_docs,tbl_standard,tbl_chapters,tbl_subjects WHERE tbl_docs.standard_id=tbl_standard.standard_id AND tbl_docs.chap_id=tbl_chapters.chap_id AND tbl_docs.sub_id=tbl_subjects.sub_id AND tbl_docs.standard_id = '".$standard."' AND tbl_docs.sub_id='".$sub."'";
+	}
+    //$result = $conn->query($sql);
+    $result = mysql_query($sql);
+	//$row = mysql_num_rows($result);
+	$rslt = array();
+	if(mysql_num_rows($result)>0){
+		while($row = mysql_fetch_assoc($result)){
+			array_push($rslt,$row);
+		}
+	}
+	die(json_encode(array('result'=>$rslt)));
+}
 ?>

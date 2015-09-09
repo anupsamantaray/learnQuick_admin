@@ -15,16 +15,15 @@ if(!$obj->isAdminLoggedIn()){
 		$admin_id = $_SESSION['admin_id'];
 	}
 
-	if(isset($_POST['submit'])){
-		$standard  = $_POST['standard'];
-		$subject   =  $_POST['subject'];
-		$chapter   = $_POST['chapter'];
-		$category  = $_POST['category']; 
-
+if(isset($_POST['submit'])){
+	$standard  = $_POST['standard'];
+	$subject   =  $_POST['subject'];
+	$chapter   = $_POST['chapter'];
+	$category  = $_POST['category']; 
 	
 if($standard != 'Select Standard'){
    for($i=1;$i<=4;$i++) {   
-	 $file_name = $_FILES["file".$i]["name"];
+		$file_name = $_FILES["file".$i]["name"];
 	if($file_name == ""){
 		continue;
 	}
@@ -54,7 +53,6 @@ if($standard != 'Select Standard'){
 			}else{
 				move_uploaded_file($_FILES["file".$i]["tmp_name"] , "upload/images/".$_FILES["file".$i]["name"]);
 				 $sql="INSERT INTO `tbl_image` VALUES ('','".addslashes($chapter)."','".addslashes($subject)."','".addslashes($standard)."','".addslashes($file_name)."')";
-			
 			}
 		}
 		elseif ($category=="Document"){
