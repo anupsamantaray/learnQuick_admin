@@ -136,6 +136,11 @@ else
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
 </head>
 <body>
+<!-----------------Priloder-------------------->
+	<div class="priloder" style="display:none;">
+		<i class="fa-li fa fa-spinner fa-spin" style="color:#fff; font-size:72px; margin: 22% 0 0 56%;"></i>
+	</div>
+<!-----------------Priloder-------------------->
 <div class="cotainer" style="width:100%;margin:0px;">
 	<?php  include_once('includes/header.php'); ?>
 </div>
@@ -162,7 +167,7 @@ else
 							</div>
 						</div>
 						<div class="col-md-12">
-							<div class="col-md-3">
+							<div class="col-md-3" style="margin-top:10px;">
 								<select class="form-control" name="standard" id="standard" required="required">
 									<option defualt value="0">Select Standard</option>
 									<?php
@@ -180,7 +185,7 @@ else
 									?>
 								</select>
 							</div>
-							<div class="col-md-3">
+							<div class="col-md-3" style="margin-top:10px;">
 								<!--select class="form-control subject" name="subject" required="required" id="subject" style="display:none;">
 									<option defualt value="0">Select Subject</option>
 								</select-->
@@ -188,13 +193,15 @@ else
 									<option defualt value="0">Select Subject</option>
 								</select>
 							</div>
-							<select class="form-control" name="category" id="category" style="width:20%; margin-top:10px; float:right;">
-								<option defualt value="0">Select Category</option>
-								<option value="Video">Explanation (Video)</option>
-								<option value="Document">Note (Pdf)</option>
-								<option value="Image">Memory Card (Images)</option>
-								
-							</select>
+							<div class="col-md-3" style="margin-top:10px;">
+								<select class="form-control" name="category" id="category">
+									<option defualt value="0">Select Category</option>
+									<option value="Video">Explanation (Video)</option>
+									<option value="Document">Note (Pdf)</option>
+									<option value="Image">Memory Card (Images)</option>
+									
+								</select>
+							</div>
 						<div class="clr"></div>
 						</div>
 						
@@ -234,13 +241,13 @@ else
 													<?php echo $row['chapter_name']."</td><td>" ?>
 													<?php echo $row['subject_name']."</td><td>" ?>
 													<!--?php echo $row['image_name']."</td><td>" ?-->
-													<?php echo "<img src='upload/images/".$row['image_name']."' width='100px' >"."</td><td>" ?>
+													<?php echo "<img src='upload/images/".$row['image_name']."' width='150px' >"."</td><td>" ?>
 													
 													<!--button type="button" class="btn btn-warning" onclick="i_delete('<?php echo $row['image_id'];?>')">Delete</button-->
 													
-													<a href="edit_image.php?prd_id=<?php echo $row["image_id"]?>" title="Edit Company" class="btn btn-warning">Edit</a>
+													<a href="edit_image.php?prd_id=<?php echo $row["image_id"]?>" title="Edit Company" class="btn btn-warning newbutton">Edit</a>
 
-													<a href="<?=$_SERVER["PHP_SELF"]?>?act=deleteIMG&id=<?php echo $row['image_id'];?>" title="Delete The Request" onClick="return confirmDelete();" class="btn btn-warning">Delete</a>
+													<a href="<?=$_SERVER["PHP_SELF"]?>?act=deleteIMG&id=<?php echo $row['image_id'];?>" title="Delete The Request" onClick="return confirmDelete();" class="btn btn-warning newbutton">Delete</a>
 												<?php 
 												}
 												echo "</td><tr>"; 
@@ -262,10 +269,10 @@ else
 													  
 												  <!--button type="button" class="btn btn-warning" onclick="v_delete('<?php echo $row1['video_name'];?>')">Delete</button-->
 													
-													<a href="edit_video.php?vdo_id=<?php echo $row1["video_id"]?>" title="Edit Video" class="btn btn-warning">Edit</a>
+													<a href="edit_video.php?vdo_id=<?php echo $row1["video_id"]?>" title="Edit Video" class="btn btn-warning newbutton">Edit</a>
 													
 													
-													<a href="<?=$_SERVER["PHP_SELF"]?>?act=deleteVDO&ids=<?php echo $row1['video_id'];?>" title="Delete The Request" onClick="return confirmDelete2();" class="btn btn-warning">Delete</a>	
+													<a href="<?=$_SERVER["PHP_SELF"]?>?act=deleteVDO&ids=<?php echo $row1['video_id'];?>" title="Delete The Request" onClick="return confirmDelete2();" class="btn btn-warning newbutton">Delete</a>	
 												
 												
 													<?php 
@@ -285,9 +292,9 @@ else
 													 <?php echo $row3['doc_name']."</td><td>" ?>
 													<!--button type="button" class="btn btn-warning" onclick="v_delete('<?php echo $row3['doc_name'];?>')">Delete</button-->
 													
-													<a href="edit_document.php?doc_id=<?php echo $row3["doc_id"]?>" title="Edit Document" class="btn btn-warning">Edit</a>
+													<a href="edit_document.php?doc_id=<?php echo $row3["doc_id"]?>" title="Edit Document" class="btn btn-warning newbutton">Edit</a>
 											  
-													<a href="<?=$_SERVER["PHP_SELF"]?>?act=deleteDOC&idss=<?php echo $row3['doc_id'];?>" title="Delete The Request" onClick="return confirmDelete3();" class="btn btn-warning">Delete</a>
+													<a href="<?=$_SERVER["PHP_SELF"]?>?act=deleteDOC&idss=<?php echo $row3['doc_id'];?>" title="Delete The Request" onClick="return confirmDelete3();" class="btn btn-warning newbutton">Delete</a>
 												<?php 
 												}
 												echo "</td></tr>"; 
