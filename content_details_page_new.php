@@ -283,7 +283,7 @@ else
 													 <?php echo $row3['chapter_name']."</td><td>" ?>
 													 <?php echo $row3['subject_name']."</td><td>" ?>
 													 <?php echo $row3['doc_name']."</td><td>" ?>
-													<!--button type="button" class="btn btn-warning" onclick="v_delete('<?php echo $row3['doc_name'];?>')">Delete</button-->
+													<!--button type="button" class="btn btn-warning" onclick="v_delete('<?php echo $row3['doc_name']; ?>')">Delete</button-->
 													
 													<a href="edit_document.php?doc_id=<?php echo $row3["doc_id"]?>" title="Edit Document" class="btn btn-warning">Edit</a>
 											  
