@@ -138,7 +138,7 @@ else
 <body>
 
 <!-----------------Priloder-------------------->
-	<div class="priloder" style="display:none;">
+	<div class="priloder preloader" style="display:none;">
 		<i class="fa-li fa fa-spinner fa-spin" style="color:#fff; font-size:72px; margin: 22% 0 0 56%;"></i>
 	</div>
 <!-----------------Priloder-------------------->
@@ -171,7 +171,7 @@ else
 						<div class="col-md-12">
 							<div class="col-md-3" style="margin-top:10px;">
 								<select class="form-control" name="standard" id="standard" required="required">
-									<option defualt value="0">Select Standard</option>
+									<option default value="0">Select Standard</option>
 									<?php
 									$data=$obj->getAllStandard();
 									if(count($data) > 0)
@@ -189,15 +189,15 @@ else
 							</div>
 							<div class="col-md-3" style="margin-top:10px;">
 								<!--select class="form-control subject" name="subject" required="required" id="subject" style="display:none;">
-									<option defualt value="0">Select Subject</option>
+									<option default value="0">Select Subject</option>
 								</select-->
 								<select class="form-control subject" name="subject" required="required" id="subject">
-									<option defualt value="0">Select Subject</option>
+									<option default value="0">Select Subject</option>
 								</select>
 							</div>
 							<div class="col-md-3" style="margin-top:10px;">
 								<select class="form-control" name="category" id="category">
-									<option defualt value="0">Select Category</option>
+									<option default value="0">Select Category</option>
 									<option value="Video">Explanation (Video)</option>
 									<option value="Document">Note (Pdf)</option>
 									<option value="Image">Memory Card (Images)</option>
@@ -220,6 +220,7 @@ else
 								</br>
 							
 								<div class="table-responsive">
+									<p id="fornored" style="display:none; align:center;"></p>
 									<table id="list" class="data-table-column-filter table table-bordered table-striped dataTable" style="margin-bottom:0;" id="DataTables_Table_1" aria-describedby="DataTables_Table_1_info">
 									<thead>								
 									<font color="#ff0000"><? if(isset($_REQUEST['dele']) && $_REQUEST['dele']=='1'){ echo "Request deleted successfully." ;}?></font>
@@ -292,7 +293,7 @@ else
 													 <?php echo $row3['chapter_name']."</td><td>" ?>
 													 <?php echo $row3['subject_name']."</td><td>" ?>
 													 <?php echo $row3['doc_name']."</td><td>" ?>
-													<!--button type="button" class="btn btn-warning" onclick="v_delete('<?php echo $row3['doc_name'];?>')">Delete</button-->
+													<!--button type="button" class="btn btn-warning" onclick="v_delete('<?php echo $row3['doc_name']; ?>')">Delete</button-->
 													
 													<a href="edit_document.php?doc_id=<?php echo $row3["doc_id"]?>" title="Edit Document" class="btn btn-warning newbutton">Edit</a>
 											  
@@ -325,6 +326,7 @@ else
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#standard").change(function(){
+		$(".preloader").show();
 		$(".subject").show();
 		var id = $(this).val();
 		std_id= $(this).val();
@@ -337,11 +339,13 @@ $(document).ready(function(){
 			cache: false,
 			success: function(html){
 				$(".subject").html(html);
+				$(".preloader").hide();
 			}
 		});
 	});
 
 	$(".subject").change(function(){
+		//$(".preloader").show();
 		$(".chapter").show();
         $('[name="category"]').show();
         var id = $(this).val();
@@ -355,6 +359,7 @@ $(document).ready(function(){
           cache: false,
           success:function(html){
             $(".chapter").html(html);
+			//$(".preloader").hide();
           }
 		}); 
 	});
@@ -389,10 +394,11 @@ $(document).ready(function(){
 		var standard = $('#standard').val();
 		var sub = $('#subject').val();
 		var cat = $('#category').val();
-		console.log(sub);
-		console.log(cat);
+		//console.log(sub);
+		//console.log(cat);
 		$("#resltfromajax").html('');
 		if((standard != '0') && (sub != '0') && (cat != '0')){
+			$(".preloader").show();
 			var dataString = 'standard='+ standard  + '&sub='+ sub + '&cat=' + cat;
 			/*dataString.append("standard",standard);
 			dataString.append("sub",sub);
@@ -408,16 +414,27 @@ $(document).ready(function(){
 					//console.log(jsndata.result[0].image_name);
 					var reshtml = '';
 					var resltdata = jsndata.result;
-					for(var i=0;i<resltdata.length;i++){
-						if(cat == 'Image'){
-							reshtml += '<tr><td>'+resltdata[i].standard+'</td><td>'+resltdata[i].chapter_name+'</td><td>'+resltdata[i].subject_name+'</td><td><img src="upload/images/'+resltdata[i].image_name+'" width="100px" /></td><td><a href="edit_image.php?prd_id='+resltdata[i].image_id+'" title="Edit Company" class="btn btn-warning">Edit</a><a href="content_details_page_new.php?act=deleteIMG&id='+resltdata[i].image_id+'" title="Delete The Request" onClick="return confirmDelete();" class="btn btn-warning">Delete</a></td></tr>';
-						}else if(cat == 'Video'){
-							reshtml += '<tr><td>'+resltdata[i].standard+'</td><td>'+resltdata[i].chapter_name+'</td><td>'+resltdata[i].subject_name+'</td><td>'+resltdata[i].video_name+'</td><td><a href="edit_video.php?vdo_id='+resltdata[i].video_id+'" title="Edit Video" class="btn btn-warning">Edit</a><a href="content_details_page_new.php?act=deleteVDO&ids='+resltdata[i].video_id+'" title="Delete The Request" onClick="return confirmDelete();" class="btn btn-warning">Delete</a></td></tr>';
-						}else if(cat == 'Document'){
-							reshtml += '<tr><td>'+resltdata[i].standard+'</td><td>'+resltdata[i].chapter_name+'</td><td>'+resltdata[i].subject_name+'</td><td>'+resltdata[i].doc_name+'</td><td><a href="edit_document.php?doc_id='+resltdata[i].doc_id+'" title="Edit Document" class="btn btn-warning">Edit</a><a href="content_details_page_new.php?act=deleteDOC&idss='+resltdata[i].doc_id+'" title="Delete The Request" onClick="return confirmDelete();" class="btn btn-warning">Delete</a></td></tr>';
+					//console.log(resltdata);
+					if(resltdata.length==0){
+						$("#list").hide();
+						$("#fornored").html("No records available for your search query.");
+						$("#fornored").show();
+						$(".preloader").hide();
+					}else{
+						$("#list").show();
+						$("#fornored").hide();
+						for(var i=0;i<resltdata.length;i++){
+							if(cat == 'Image'){
+								reshtml += '<tr><td>'+resltdata[i].standard+'</td><td>'+resltdata[i].chapter_name+'</td><td>'+resltdata[i].subject_name+'</td><td><img src="upload/images/'+resltdata[i].image_name+'" width="100px" /></td><td><a href="edit_image.php?prd_id='+resltdata[i].image_id+'" title="Edit Company" class="btn btn-warning">Edit</a><a href="content_details_page_new.php?act=deleteIMG&id='+resltdata[i].image_id+'" title="Delete The Request" onClick="return confirmDelete();" class="btn btn-warning">Delete</a></td></tr>';
+							}else if(cat == 'Video'){
+								reshtml += '<tr><td>'+resltdata[i].standard+'</td><td>'+resltdata[i].chapter_name+'</td><td>'+resltdata[i].subject_name+'</td><td>'+resltdata[i].video_name+'</td><td><a href="edit_video.php?vdo_id='+resltdata[i].video_id+'" title="Edit Video" class="btn btn-warning">Edit</a><a href="content_details_page_new.php?act=deleteVDO&ids='+resltdata[i].video_id+'" title="Delete The Request" onClick="return confirmDelete();" class="btn btn-warning">Delete</a></td></tr>';
+							}else if(cat == 'Document'){
+								reshtml += '<tr><td>'+resltdata[i].standard+'</td><td>'+resltdata[i].chapter_name+'</td><td>'+resltdata[i].subject_name+'</td><td>'+resltdata[i].doc_name+'</td><td><a href="edit_document.php?doc_id='+resltdata[i].doc_id+'" title="Edit Document" class="btn btn-warning">Edit</a><a href="content_details_page_new.php?act=deleteDOC&idss='+resltdata[i].doc_id+'" title="Delete The Request" onClick="return confirmDelete();" class="btn btn-warning">Delete</a></td></tr>';
+							}
 						}
+						$("#resltfromajax").append(reshtml);
+						$(".preloader").hide();
 					}
-					$("#resltfromajax").append(reshtml);
 				}
 			});
 		}
