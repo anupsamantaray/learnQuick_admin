@@ -136,11 +136,13 @@ else
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
 </head>
 <body>
+
 <!-----------------Priloder-------------------->
 	<div class="priloder preloader" style="display:none;">
 		<i class="fa-li fa fa-spinner fa-spin" style="color:#fff; font-size:72px; margin: 22% 0 0 56%;"></i>
 	</div>
 <!-----------------Priloder-------------------->
+
 <div class="cotainer" style="width:100%;margin:0px;">
 	<?php  include_once('includes/header.php'); ?>
 </div>
