@@ -150,7 +150,7 @@ else
 			<?php  include_once('includes/side_nav.php'); ?>
 		</div>
 		<div class="col-md-10">
-			<a href="#"><strong><i class="glyphicon glyphicon-briefcase"></i> School Admin </strong></a>
+			<a href="javascript:void(0)"><strong><i class="glyphicon glyphicon-briefcase"></i> School Admin </strong></a>
 			<hr>
 			<div class="row">
 				<div class="col-md-12">
@@ -161,13 +161,13 @@ else
 									<strong>Content Details</strong>
 								</div>
 								<div class="col-md-1">
-									<a data-toggle="collapse" data-parent="userPanel" href="#userBody"><span class="glyphicon glyphicon-chevron-down"></span>
+									<a data-toggle="collapse" data-parent="userPanel" href="#userBody"><span class="glyphicon glyphicon-chevron-down clkforhide"></span>
 									</a>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-12">
-							<div class="col-md-3" style="margin-top:10px;">
+							<div class="col-md-3 forhide" style="margin-top:10px;">
 								<select class="form-control" name="standard" id="standard" required="required">
 									<option default value="0">Select Standard</option>
 									<?php
@@ -185,7 +185,7 @@ else
 									?>
 								</select>
 							</div>
-							<div class="col-md-3" style="margin-top:10px;">
+							<div class="col-md-3 forhide" style="margin-top:10px;">
 								<!--select class="form-control subject" name="subject" required="required" id="subject" style="display:none;">
 									<option default value="0">Select Subject</option>
 								</select-->
@@ -193,7 +193,7 @@ else
 									<option default value="0">Select Subject</option>
 								</select>
 							</div>
-							<div class="col-md-3" style="margin-top:10px;">
+							<div class="col-md-3 forhide" style="margin-top:10px;">
 								<select class="form-control" name="category" id="category">
 									<option default value="0">Select Category</option>
 									<option value="Video">Explanation (Video)</option>
@@ -323,6 +323,9 @@ else
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	$(".clkforhide").click(function(){
+		$(".forhide").toggle();
+	});
 	$("#standard").change(function(){
 		$(".preloader").show();
 		$(".subject").show();
